@@ -21,22 +21,14 @@ class MoneyFlowStatusForm(forms.ModelForm):
         label=_("Title"),
         max_length=120,
     )
-
-    def save(self, commit=True) -> MoneyFlowStatus:
-        """
-        Creates or gets a Money flow status with the title and associate it
-        with the user.
-        """
-        title = self.cleaned_data["title"]
-        instance, _ = MoneyFlowStatus.objects.get_or_create(title=title)
-        self.user.money_flow_statuses.add(instance)
-        if commit:
-            instance.save()
-        return instance
-
-    def validate_unique(self):
-        """Removed for custom logic."""
+    user = forms.IntegerField(
+        widget=forms.HiddenInput(),
+        required=False,
+    )
 
     class Meta:
         model = MoneyFlowStatus
-        fields = ("title", )
+        fields = (
+            "title",
+            "user",
+        )

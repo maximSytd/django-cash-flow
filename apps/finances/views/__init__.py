@@ -2,13 +2,13 @@ from .category_type import (
     CategoryTypeCreateView,
     CategoryTypeListView,
     CategoryTypeUpdateView,
-    RemoveUserCategoryTypeView,
+    CategoryTypeDeleteView,
 )
 from .category import (
     CategoryCreateView,
     CategoryListView,
     CategoryUpdateView,
-    RemoveUserCategoryView,
+    CategoryDeleteView,
 )
 from .money_flow_status import (
     MoneyFlowStatusCreateView,
@@ -20,6 +20,7 @@ from .money_flow import (
     MoneyFlowCreateView,
     MoneyFlowFilterView,
     MoneyFlowDeleteView,
-    MoneyFlowDetailView,
-    MoneyFlowUpdateView
+    MoneyFlowUpdateView,
 )
+
+from .settings import TransactionSettingsView

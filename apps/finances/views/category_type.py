@@ -1,9 +1,6 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.views import View
-from django.shortcuts import get_object_or_404
 
 from ..models import CategoryType
 from ..forms import CategoryTypeForm
@@ -38,6 +35,10 @@ class CategoryTypeUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("finances:category_type:list")
     template_name = "finances/category_type/update.html"
 
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.category_types.order_by("created")
+
     def get_form_kwargs(self):
         """Return form kwargs expended with user."""
         kwargs = super().get_form_kwargs()
@@ -45,19 +46,11 @@ class CategoryTypeUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
 
-class RemoveUserCategoryTypeView(LoginRequiredMixin, View):
-    """
-    Remove a category type from the user's category types without deleting it
-    from the DB.
-    """
+class CategoryTypeDeleteView(LoginRequiredMixin, DeleteView):
 
-    template_name = "finances/category_type/remove.html"
+    model = CategoryType
+    success_url = reverse_lazy("finances:category_type:list")
 
-    def post(self, request, *args, **kwargs) -> HttpResponseRedirect:
-        category_type_id = kwargs.get("pk")
-        category_type = get_object_or_404(CategoryType, pk=category_type_id)
-
-        request.user.category_types.remove(category_type)
-        return HttpResponseRedirect(
-            reverse_lazy("finances:category_type:list"),
-        )
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.category_types.order_by("created")

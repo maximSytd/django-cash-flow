@@ -108,24 +108,6 @@ class User(
             ResizeToFill(50, 50),
         ],
     )
-    money_flow_statuses = models.ManyToManyField(
-        to="finances.MoneyFlowStatus",
-        verbose_name=_("Money flow statuses"),
-        related_name="users",
-        blank=True,
-    )
-    categories = models.ManyToManyField(
-        to="finances.Category",
-        verbose_name=_("Categories"),
-        related_name="users",
-        blank=True,
-    )
-    category_types = models.ManyToManyField(
-        to="finances.CategoryType",
-        verbose_name=_("Category type"),
-        related_name="users",
-        blank=True,
-    )
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"

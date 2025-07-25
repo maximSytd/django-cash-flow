@@ -24,8 +24,8 @@ urlpatterns = [
         name="update",
     ),
     path(
-        "<int:pk>/remove/",
+        "<int:pk>/delete/",
         RemoveUserMoneyFlowStatusView.as_view(),
-        name="remove",
+        name="delete",
     ),
 ]

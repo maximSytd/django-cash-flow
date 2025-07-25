@@ -41,24 +41,10 @@ class CategoryForm(forms.ModelForm):
         }),
         label=_("Type"),
     )
-
-    def save(self, commit=True) -> Category:
-        """
-        Creates or gets a Category with the title and associate it
-        with the user.
-        """
-        instance, created = Category.objects.get_or_create(
-            title=self.cleaned_data["title"],
-            type=self.cleaned_data["type"],
-            parent=self.cleaned_data.get("parent"),
-        )
-        self.user.categories.add(instance)
-        if commit:
-            instance.save()
-        return instance
-
-    def validate_unique(self):
-        """Removed for custom logic."""
+    user = forms.IntegerField(
+        widget=forms.HiddenInput(),
+        required=False,
+    )
 
     class Meta:
         model = Category
@@ -66,4 +52,5 @@ class CategoryForm(forms.ModelForm):
             "title",
             "parent",
             "type",
+            "user",
         )

@@ -44,7 +44,7 @@
                         <a href="{% url 'finances:money_flow_status:update' pk=status.pk %}" class="btn btn-sm btn-outline-secondary me-2">
                             <i class="bi bi-pencil"></i> {% trans "Edit" %}
                         </a>
-                        <form method="post" action="{% url 'finances:money_flow_status:remove' pk=status.pk %}">
+                        <form method="post" action="{% url 'finances:money_flow_status:delete' pk=status.pk %}">
                             {% csrf_token %}
                             <button class="btn btn-sm btn-outline-danger">
                                 <i class="bi bi-trash"></i> {% trans "Remove" %}

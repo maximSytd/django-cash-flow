@@ -43,7 +43,7 @@
                         <a href="{% url 'finances:category_type:update' pk=category_type.pk %}" class="btn btn-sm btn-outline-secondary me-2">
                             <i class="bi bi-pencil"></i> Edit
                         </a>
-                         <form method="post" action="{% url 'finances:category_type:remove' pk=category_type.pk %}">
+                         <form method="post" action="{% url 'finances:category_type:delete' pk=category_type.pk %}">
                             {% csrf_token %}
                             <button class="btn btn-sm btn-outline-danger">
                                 <i class="bi bi-trash"></i> Remove

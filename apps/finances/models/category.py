@@ -27,6 +27,12 @@ class Category(BaseModel, MPTTModel):
         on_delete=models.RESTRICT,
         verbose_name=_("Type"),
     )
+    user = models.ForeignKey(
+        to="users.User",
+        related_name="categories",
+        on_delete=models.RESTRICT,
+        verbose_name=_("User"),
+    )
 
     class MPTTMeta:
         order_insertion_by = ("title",)

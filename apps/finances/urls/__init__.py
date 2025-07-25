@@ -1,5 +1,7 @@
 from django.urls import include, path
 
+from ..views import TransactionSettingsView
+
 app_name = "finances"
 
 urlpatterns = [
@@ -38,5 +40,12 @@ urlpatterns = [
                 "money_flow",
             ),
         ),
+    ),
+]
+urlpatterns += [
+    path(
+        "settings/",
+        TransactionSettingsView.as_view(),
+        name="transaction_settings",
     ),
 ]

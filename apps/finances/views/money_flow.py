@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django_filters.views import FilterView
@@ -14,8 +14,11 @@ class MoneyFlowFilterView(LoginRequiredMixin, FilterView):
     template_name = "finances/money_flow/list.html"
     filterset_class = MoneyFlowFilter
     context_object_name = "money_flows"
-    queryset = MoneyFlow.objects.all()
     paginate_by = 10
+
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.money_flows.order_by("created")
 
 
 class MoneyFlowCreateView(LoginRequiredMixin, CreateView):
@@ -24,17 +27,14 @@ class MoneyFlowCreateView(LoginRequiredMixin, CreateView):
     form_class = MoneyFlowForm
     success_url = reverse_lazy("finances:money_flow:list")
 
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.money_flows.order_by("created")
+
     def form_valid(self, form):
         """Return validated form."""
         form.instance.user = self.request.user
         return super().form_valid(form)
-
-
-class MoneyFlowDetailView(LoginRequiredMixin, DetailView):
-    model = MoneyFlow
-    template_name = "finances/money_flow/detail.html"
-    context_object_name = "money_flow"
-    queryset = MoneyFlow.objects.all()
 
 
 class MoneyFlowDeleteView(LoginRequiredMixin, DeleteView):
@@ -47,6 +47,10 @@ class MoneyFlowUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "finances/money_flow/update.html"
     form_class = MoneyFlowForm
     context_object_name = "money_flow"
+
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.money_flows.order_by("created")
 
     def get_success_url(self):
         return reverse_lazy(

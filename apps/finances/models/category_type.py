@@ -11,6 +11,12 @@ class CategoryType(BaseModel):
         max_length=120,
         verbose_name=_("Title"),
     )
+    user = models.ForeignKey(
+        to="users.User",
+        related_name="category_types",
+        on_delete=models.RESTRICT,
+        verbose_name=_("User"),
+    )
 
     class Meta:
         verbose_name = _("Category type")

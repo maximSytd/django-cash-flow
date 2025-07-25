@@ -21,21 +21,14 @@ class CategoryTypeForm(forms.ModelForm):
         label=_("Title"),
         max_length=120
     )
-    def save(self, commit=True) -> CategoryType:
-        """
-        Creates or gets a Category type with the title and associate it
-        with the user.
-        """
-        title = self.cleaned_data["title"]
-        instance, created = CategoryType.objects.get_or_create(title=title)
-        self.user.category_types.add(instance)
-        if commit:
-            instance.save()
-        return instance
-
-    def validate_unique(self):
-        """Removed for custom logic."""
+    user = forms.IntegerField(
+        widget=forms.HiddenInput(),
+        required=False,
+    )
 
     class Meta:
         model = CategoryType
-        fields = ("title", )
+        fields = (
+            "title",
+            "user",
+        )

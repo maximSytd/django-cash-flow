@@ -1,9 +1,6 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.views import View
-from django.shortcuts import get_object_or_404
 
 from ..models import Category
 from ..forms import CategoryForm
@@ -12,7 +9,6 @@ from ..forms import CategoryForm
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     context_object_name = "categories"
-    queryset = Category.objects.order_by("created")
     template_name = "finances/category/list.html"
 
     def get_queryset(self):
@@ -46,19 +42,10 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
 
-class RemoveUserCategoryView(LoginRequiredMixin, View):
-    """
-    Remove a category from the user's categories without deleting it
-    from the DB.
-    """
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Category
+    success_url = reverse_lazy("finances:category:list")
 
-    template_name = "finances/category/remove.html"
-
-    def post(self, request, *args, **kwargs) -> HttpResponseRedirect:
-        category_id = kwargs.get("pk")
-        category = get_object_or_404(Category, pk=category_id)
-
-        request.user.categories.remove(category)
-        return HttpResponseRedirect(
-            reverse_lazy("finances:category:list"),
-        )
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.categories.order_by("created")

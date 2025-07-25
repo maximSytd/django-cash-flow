@@ -71,22 +71,12 @@
         </ul>
         <ul class="list-group mb-3">
             <a href="{% url 'finances:money_flow:list' %}" class="list-group-item list-group-item-action bg-transparent text-light">
-                Money flow
+                All transactions
             </a>
         </ul>
         <ul class="list-group mb-3">
-            <a href="{% url 'finances:category:list' %}" class="list-group-item list-group-item-action bg-transparent text-light">
-                Category
-            </a>
-        </ul>
-        <ul class="list-group mb-3">
-            <a href="{% url 'finances:category_type:list' %}" class="list-group-item list-group-item-action bg-transparent text-light">
-                Types of categories
-            </a>
-        </ul>
-        <ul class="list-group mb-3">
-            <a href="{% url 'finances:money_flow_status:list' %}" class="list-group-item list-group-item-action bg-transparent text-light">
-                Money flow statuses
+            <a href="{% url 'finances:transaction_settings' %}" class="list-group-item list-group-item-action bg-transparent text-light">
+                Transactions settings
             </a>
         </ul>
     </div>

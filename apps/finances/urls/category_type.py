@@ -4,7 +4,7 @@ from ..views import (
     CategoryTypeCreateView,
     CategoryTypeListView,
     CategoryTypeUpdateView,
-    RemoveUserCategoryTypeView,
+    CategoryTypeDeleteView,
 )
 
 urlpatterns = [
@@ -24,8 +24,8 @@ urlpatterns = [
         name="update",
     ),
     path(
-        "<int:pk>/remove/",
-        RemoveUserCategoryTypeView.as_view(),
-        name="remove",
+        "<int:pk>/delete/",
+        CategoryTypeDeleteView.as_view(),
+        name="delete",
     ),
 ]

@@ -1,9 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
 
 from ..models import MoneyFlowStatus
 from ..forms import MoneyFlowStatusForm
@@ -39,6 +36,10 @@ class MoneyFlowStatusUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("finances:money_flow_status:list")
     template_name = "finances/money_flow_status/update.html"
 
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.money_flow_statuses.order_by("created")
+
     def get_form_kwargs(self):
         """Return form kwargs expended with user."""
         kwargs = super().get_form_kwargs()
@@ -46,17 +47,10 @@ class MoneyFlowStatusUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
 
-class RemoveUserMoneyFlowStatusView(LoginRequiredMixin, View):
-    """
-    Remove a money flow status from the user's selected statuses
-    without deleting it from the database.
-    """
+class RemoveUserMoneyFlowStatusView(LoginRequiredMixin, DeleteView):
+    model = MoneyFlowStatus
+    success_url = reverse_lazy("finances:money_flow_status:list")
 
-    def post(self, request, *args, **kwargs) -> HttpResponseRedirect:
-        status_id = kwargs.get("pk")
-        status = get_object_or_404(MoneyFlowStatus, pk=status_id)
-
-        request.user.money_flow_statuses.remove(status)
-        return HttpResponseRedirect(
-            reverse_lazy("finances:money_flow_status:list")
-        )
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.money_flow_statuses.order_by("created")

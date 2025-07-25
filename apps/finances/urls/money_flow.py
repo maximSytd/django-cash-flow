@@ -4,8 +4,7 @@ from ..views import (
     MoneyFlowCreateView,
     MoneyFlowFilterView,
     MoneyFlowDeleteView,
-    MoneyFlowDetailView,
-    MoneyFlowUpdateView
+    MoneyFlowUpdateView,
 )
 
 urlpatterns = [
@@ -18,11 +17,6 @@ urlpatterns = [
         "list/",
         MoneyFlowFilterView.as_view(),
         name="list",
-    ),
-    path(
-        "<int:pk>/detail/",
-        MoneyFlowDetailView.as_view(),
-        name="detail",
     ),
     path(
         "<int:pk>/update/",
