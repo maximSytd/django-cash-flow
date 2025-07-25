@@ -37,12 +37,12 @@ class Category(BaseModel, MPTTModel):
         order_insertion_by = ("title",)
 
     class Meta:
-        constraints = (
+        constraints = [
             models.UniqueConstraint(
-                fields=("parent", "slug", ),
+                fields=("parent", "slug"),
                 name="unique_parent_slug",
-            )
-        )
+            ),
+        ]
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 

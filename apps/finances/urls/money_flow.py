@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .money_flow import (
+from ..views import (
     MoneyFlowCreateView,
     MoneyFlowFilterView,
     MoneyFlowDeleteView,

@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django.urls import path, include,re_path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from debug_toolbar.toolbar import debug_toolbar_urls
 
-from apps.core.views import IndexView, protected_serve
+from apps.core.views import IndexView
 
 
 urlpatterns = [
@@ -19,7 +19,7 @@ urlpatterns = [
     ),
     path(
         "finance/",
-        include("apps.finance.urls"),
+        include("apps.finances.urls"),
     ),
 ]
 

@@ -6,29 +6,37 @@ urlpatterns = [
     path(
         "categories/",
         include(
-            "finances.urls.category",
-            namespace="category",
+            (
+                "apps.finances.urls.category",
+                "category",
+            ),
         ),
     ),
     path(
         "categories-types/",
         include(
-            "finances.urls.category_type",
-            namespace="category_type",
+            (
+                "apps.finances.urls.category_type",
+                "category_type",
+            ),
         ),
     ),
     path(
         "statuses/",
         include(
-            "finances.urls.money_flow_status",
-            namespace="money_flow_status",
+            (
+                "apps.finances.urls.money_flow_status",
+                "money_flow_status",
+            ),
         ),
     ),
     path(
         "money-flow/",
         include(
-            "finances.urls.money_flow",
-            namespace="money_flow",
+            (
+                "apps.finances.urls.money_flow",
+                "money_flow",
+            ),
         ),
     ),
 ]

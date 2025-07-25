@@ -17,7 +17,7 @@ class MoneyFlow(BaseModel):
         ]
     )
     status = models.ForeignKey(
-        to="finances.FlowStatus",
+        to="finances.MoneyFlowStatus",
         related_name="money_flows",
         on_delete=models.RESTRICT,
         verbose_name=_("Status"),

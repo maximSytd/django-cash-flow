@@ -109,7 +109,7 @@ class User(
         ],
     )
     money_flows_types = models.ManyToManyField(
-        to="finances.MoneyFlowType",
+        to="finances.MoneyFlowStatus",
         verbose_name=_("Money flow types"),
         related_name="accounts",
         blank=True,
