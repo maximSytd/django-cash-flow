@@ -17,7 +17,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """Return view queryset."""
-        return self.request.user.category.order_by("created")
+        return self.request.user.categories.order_by("created")
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
