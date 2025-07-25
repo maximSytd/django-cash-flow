@@ -108,22 +108,22 @@ class User(
             ResizeToFill(50, 50),
         ],
     )
-    money_flows_types = models.ManyToManyField(
+    money_flow_statuses = models.ManyToManyField(
         to="finances.MoneyFlowStatus",
-        verbose_name=_("Money flow types"),
-        related_name="accounts",
+        verbose_name=_("Money flow statuses"),
+        related_name="users",
         blank=True,
     )
     categories = models.ManyToManyField(
         to="finances.Category",
         verbose_name=_("Categories"),
-        related_name="accounts",
+        related_name="users",
         blank=True,
     )
     category_types = models.ManyToManyField(
         to="finances.CategoryType",
         verbose_name=_("Category type"),
-        related_name="accounts",
+        related_name="users",
         blank=True,
     )
 

@@ -13,12 +13,18 @@ class MoneyFlowStatusListView(LoginRequiredMixin, ListView):
     model = MoneyFlowStatus
     context_object_name = "money_flow_statuses"
     queryset = MoneyFlowStatus.objects.order_by("created")
+    template_name = "finances/money_flow_status/list.html"
+
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.money_flow_statuses.order_by("created")
 
 
 class MoneyFlowStatusCreateView(LoginRequiredMixin, CreateView):
     model = MoneyFlowStatus
     form_class = MoneyFlowStatusForm
     success_url = reverse_lazy("finances:money_flow_status:list")
+    template_name = "finances/money_flow_status/create.html"
 
     def get_form_kwargs(self):
         """Return form kwargs expended with user."""
@@ -31,6 +37,7 @@ class MoneyFlowStatusUpdateView(LoginRequiredMixin, UpdateView):
     model = MoneyFlowStatus
     form_class = MoneyFlowStatusForm
     success_url = reverse_lazy("finances:money_flow_status:list")
+    template_name = "finances/money_flow_status/update.html"
 
     def get_form_kwargs(self):
         """Return form kwargs expended with user."""

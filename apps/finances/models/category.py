@@ -21,11 +21,6 @@ class Category(BaseModel, MPTTModel):
         related_name=_("Children"),
         verbose_name=_("Parent category"),
     )
-    slug = models.SlugField(
-        verbose_name=_("URL"),
-        max_length=100,
-        unique=True,
-    )
     type = models.ForeignKey(
         to="finances.CategoryType",
         related_name="categories",
@@ -37,12 +32,6 @@ class Category(BaseModel, MPTTModel):
         order_insertion_by = ("title",)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=("parent", "slug"),
-                name="unique_parent_slug",
-            ),
-        ]
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 

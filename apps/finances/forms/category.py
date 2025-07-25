@@ -23,7 +23,6 @@ class CategoryForm(forms.ModelForm):
         label=_("Title"),
         max_length=120
     )
-
     parent = TreeNodeChoiceField(
         queryset=Category.objects.all(),
         required=False,
@@ -34,16 +33,6 @@ class CategoryForm(forms.ModelForm):
         label=_("Parent category"),
         level_indicator="—"
     )
-
-    slug = forms.SlugField(
-        widget=forms.TextInput(attrs={
-            "class": "form-control w-50",
-            "placeholder": _("Enter URL-friendly slug")
-        }),
-        label=_("Slug"),
-        max_length=100
-    )
-
     type = forms.ModelChoiceField(
         queryset=CategoryType.objects.all(),
         widget=forms.Select(attrs={
@@ -58,13 +47,16 @@ class CategoryForm(forms.ModelForm):
         Creates or gets a Category with the title and associate it
         with the user.
         """
-        title = self.cleaned_data["title"]
-        instance, _ = Category.objects.get_or_create(title=title)
+        instance, created = Category.objects.get_or_create(
+            title=self.cleaned_data["title"],
+            type=self.cleaned_data["type"],
+            parent=self.cleaned_data.get("parent"),
+        )
         self.user.categories.add(instance)
         if commit:
             instance.save()
         return instance
-    
+
     def validate_unique(self):
         """Removed for custom logic."""
 
@@ -73,6 +65,5 @@ class CategoryForm(forms.ModelForm):
         fields = (
             "title",
             "parent",
-            "slug",
             "type",
         )

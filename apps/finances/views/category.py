@@ -15,6 +15,10 @@ class CategoryListView(LoginRequiredMixin, ListView):
     queryset = Category.objects.order_by("created")
     template_name = "finances/category/list.html"
 
+    def get_queryset(self):
+        """Return view queryset."""
+        return self.request.user.category.order_by("created")
+
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category

@@ -58,6 +58,10 @@ class MoneyFlowForm(forms.ModelForm):
         label=_("Comment"),
         required=False,
     )
+    user = forms.IntegerField(
+        widget=forms.HiddenInput(),
+        required=False,
+    )
 
     class Meta:
         model = MoneyFlow
@@ -66,4 +70,5 @@ class MoneyFlowForm(forms.ModelForm):
             "status",
             "category",
             "comment",
+            "user",
         )

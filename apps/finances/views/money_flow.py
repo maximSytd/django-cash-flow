@@ -11,7 +11,7 @@ from ..forms import MoneyFlowForm
 
 class MoneyFlowFilterView(LoginRequiredMixin, FilterView):
     model = MoneyFlow
-    template_name = ...
+    template_name = "finances/money_flow/list.html"
     filterset_class = MoneyFlowFilter
     context_object_name = "money_flows"
     queryset = MoneyFlow.objects.all()
@@ -20,14 +20,19 @@ class MoneyFlowFilterView(LoginRequiredMixin, FilterView):
 
 class MoneyFlowCreateView(LoginRequiredMixin, CreateView):
     model = MoneyFlow
-    template_name = ...
+    template_name = "finances/money_flow/create.html"
     form_class = MoneyFlowForm
     success_url = reverse_lazy("finances:money_flow:list")
+
+    def form_valid(self, form):
+        """Return validated form."""
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class MoneyFlowDetailView(LoginRequiredMixin, DetailView):
     model = MoneyFlow
-    template_name = ...
+    template_name = "finances/money_flow/detail.html"
     context_object_name = "money_flow"
     queryset = MoneyFlow.objects.all()
 
@@ -39,7 +44,7 @@ class MoneyFlowDeleteView(LoginRequiredMixin, DeleteView):
 
 class MoneyFlowUpdateView(LoginRequiredMixin, UpdateView):
     model = MoneyFlow
-    template_name = ...
+    template_name = "finances/money_flow/update.html"
     form_class = MoneyFlowForm
     context_object_name = "money_flow"
 

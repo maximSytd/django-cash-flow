@@ -29,10 +29,13 @@ class MoneyFlowStatusForm(forms.ModelForm):
         """
         title = self.cleaned_data["title"]
         instance, _ = MoneyFlowStatus.objects.get_or_create(title=title)
-        self.user.categories.add(instance)
+        self.user.money_flow_statuses.add(instance)
         if commit:
             instance.save()
         return instance
+
+    def validate_unique(self):
+        """Removed for custom logic."""
 
     class Meta:
         model = MoneyFlowStatus

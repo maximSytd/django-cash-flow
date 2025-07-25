@@ -15,7 +15,7 @@ class CategoryTypeListView(LoginRequiredMixin, ListView):
     template_name = "finances/category_type/list.html"
 
     def get_queryset(self):
-        """Return model queryset."""
+        """Return view queryset."""
         return self.request.user.category_types.order_by("created")
 
 
