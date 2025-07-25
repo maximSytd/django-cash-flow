@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Profile{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="{% static 'users/css/profile.css' %}" />
+{% endblock %}
+
+{% block page_name %}
+<div class="w-100 d-flex justify-content-center">
+    <a class="navbar-brand mx-auto" href="#">Profile</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card options-container">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Information about user {{ user.first_name }} {{ user.last_name }}</h5>
+                    <a href="{% url 'users:update_user' %}" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                </div>
+                <div class="d-flex align-items-center p-3">
+                    <div class="avatar-container me-3">
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="User avatar" class="avatar-image">
+                        {% else %}
+                            <img src="{% static 'empty_avatar.webp' %}" alt="Profile Photo" class="avatar-image" />
+                        {% endif %}
+                        <button type="button" class="avatar-button" data-bs-toggle="modal" data-bs-target="#avatarUploadModal">
+                            <i class="bi bi-pencil edit-icon"></i>
+                        </button>
+                    </div>
+                    <div class="user-info">
+                        <h6>Login: {{ user.username }}</h6>
+                        <h6>Email: {{ user.email | slice:1}}<span>*****</span>{{ user.email | slice:"-10:"}}</h6>
+                        <h6>Account creation date: {{ user.created|date:"d.m.Y" }}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4 ">
+        <div class="col-md-8">
+            <div class="card options-container">
+                <div class="card-header">
+                    <h5>Options</h5>
+                </div>
+                <div class="options-container">
+                    <a href="{% url 'password_reset' %}" class="btn btn-primary">Reset password</a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'admin:users_user_changelist' %}" class="btn btn-primary ms-2">Users control</a>
+                        <a href="{% url 'admin:auth_group_changelist' %}" class="btn btn-primary ms-2">Groups control</a>
+                        <a href="
+                        {% if has_storage %}
+                            {% url 'products:update_storage' %}
+                        {% else %}
+                            {% url 'products:create_storage' %}
+                        {% endif %}
+                        " class="btn btn-primary ms-2">Manage storage</a>
+                        <a href="{% url 'admin:sites_site_changelist' %}" class="btn btn-primary ms-2">Site settings</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="avatarUploadModal" tabindex="-1" aria-labelledby="avatarUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="avatarUploadModalLabel ">Upload avatar</h5>
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'users:update_user' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ user_update_form.avatar | as_crispy_field }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Done</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
