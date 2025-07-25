@@ -64,9 +64,9 @@ class CategoryForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
-
+    
     def validate_unique(self):
-        super().validate_unique
+        """Removed for custom logic."""
 
     class Meta:
         model = Category
