@@ -22,7 +22,19 @@ class MoneyFlowCreateView(LoginRequiredMixin, CreateView):
     model = MoneyFlow
     template_name = ...
     form_class = MoneyFlowForm
-    success_url = reverse_lazy("finances:create_money_flow")
+    success_url = reverse_lazy("finances:money_flow:list")
+
+
+class MoneyFlowDetailView(LoginRequiredMixin, DetailView):
+    model = MoneyFlow
+    template_name = ...
+    context_object_name = "money_flow"
+    queryset = MoneyFlow.objects.all()
+
+
+class MoneyFlowDeleteView(LoginRequiredMixin, DeleteView):
+    model = MoneyFlow
+    success_url = reverse_lazy("finances:money_flow:list")
 
 
 class MoneyFlowUpdateView(LoginRequiredMixin, UpdateView):
@@ -39,14 +51,3 @@ class MoneyFlowUpdateView(LoginRequiredMixin, UpdateView):
             },
         )
 
-
-class MoneyFlowDetailView(LoginRequiredMixin, DetailView):
-    model = MoneyFlow
-    template_name = ...
-    context_object_name = "money_flow"
-    queryset = MoneyFlow.objects.all()
-
-
-class MoneyFlowDeleteView(LoginRequiredMixin, DeleteView):
-    model = MoneyFlow
-    success_url = reverse_lazy("finances:delete_money_flow")

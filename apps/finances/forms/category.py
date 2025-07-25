@@ -9,6 +9,10 @@ from ..models import Category, CategoryType
 class CategoryForm(forms.ModelForm):
     """Form for creating/updating Category."""
 
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
     title = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -49,7 +53,7 @@ class CategoryForm(forms.ModelForm):
         label=_("Type"),
     )
 
-    def save(self) -> Category:
+    def save(self, commit=True) -> Category:
         """
         Creates or gets a Category with the title and associate it
         with the user.
@@ -57,7 +61,12 @@ class CategoryForm(forms.ModelForm):
         title = self.cleaned_data["title"]
         instance, _ = Category.objects.get_or_create(title=title)
         self.user.categories.add(instance)
+        if commit:
+            instance.save()
         return instance
+
+    def validate_unique(self):
+        super().validate_unique
 
     class Meta:
         model = Category

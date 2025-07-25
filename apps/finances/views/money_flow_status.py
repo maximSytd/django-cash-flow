@@ -18,18 +18,25 @@ class MoneyFlowStatusListView(LoginRequiredMixin, ListView):
 class MoneyFlowStatusCreateView(LoginRequiredMixin, CreateView):
     model = MoneyFlowStatus
     form_class = MoneyFlowStatusForm
-    success_url = reverse_lazy("finances:money_flow_statuses_list")
+    success_url = reverse_lazy("finances:money_flow_status:list")
+
+    def get_form_kwargs(self):
+        """Return form kwargs expended with user."""
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class MoneyFlowStatusUpdateView(LoginRequiredMixin, UpdateView):
     model = MoneyFlowStatus
     form_class = MoneyFlowStatusForm
-    success_url = reverse_lazy("finances:money_flow_statuses_list")
+    success_url = reverse_lazy("finances:money_flow_status:list")
 
-
-class MoneyFlowStatusDeleteView(LoginRequiredMixin, DeleteView):
-    model = MoneyFlowStatus
-    success_url = reverse_lazy("finances:money_flow_statuses_list")
+    def get_form_kwargs(self):
+        """Return form kwargs expended with user."""
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class RemoveUserMoneyFlowStatusView(LoginRequiredMixin, View):
@@ -44,5 +51,5 @@ class RemoveUserMoneyFlowStatusView(LoginRequiredMixin, View):
 
         request.user.money_flow_statuses.remove(status)
         return HttpResponseRedirect(
-            reverse_lazy("finances:money_flow_statuses_list")
+            reverse_lazy("finances:money_flow_status:list")
         )
