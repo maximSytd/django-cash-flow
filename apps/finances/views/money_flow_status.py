@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from apps.core.views import OwnerAccessMixin
 from ..models import MoneyFlowStatus
 from ..forms import MoneyFlowStatusForm
 
@@ -9,7 +10,6 @@ from ..forms import MoneyFlowStatusForm
 class MoneyFlowStatusListView(LoginRequiredMixin, ListView):
     model = MoneyFlowStatus
     context_object_name = "money_flow_statuses"
-    queryset = MoneyFlowStatus.objects.order_by("created")
     template_name = "finances/money_flow_status/list.html"
 
     def get_queryset(self):
@@ -30,15 +30,15 @@ class MoneyFlowStatusCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
 
-class MoneyFlowStatusUpdateView(LoginRequiredMixin, UpdateView):
+class MoneyFlowStatusUpdateView(
+    LoginRequiredMixin,
+    OwnerAccessMixin,
+    UpdateView,
+):
     model = MoneyFlowStatus
     form_class = MoneyFlowStatusForm
     success_url = reverse_lazy("finances:money_flow_status:list")
     template_name = "finances/money_flow_status/update.html"
-
-    def get_queryset(self):
-        """Return view queryset."""
-        return self.request.user.money_flow_statuses.order_by("created")
 
     def get_form_kwargs(self):
         """Return form kwargs expended with user."""
@@ -47,10 +47,10 @@ class MoneyFlowStatusUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
 
-class RemoveUserMoneyFlowStatusView(LoginRequiredMixin, DeleteView):
+class RemoveUserMoneyFlowStatusView(
+    LoginRequiredMixin,
+    OwnerAccessMixin,
+    DeleteView,
+):
     model = MoneyFlowStatus
     success_url = reverse_lazy("finances:money_flow_status:list")
-
-    def get_queryset(self):
-        """Return view queryset."""
-        return self.request.user.money_flow_statuses.order_by("created")

@@ -7,7 +7,6 @@ class MoneyFlowStatus(BaseModel):
     """Represent Money flow status in db."""
 
     title = models.CharField(
-        unique=True,
         max_length=120,
         verbose_name=_("Title"),
     )
@@ -19,6 +18,12 @@ class MoneyFlowStatus(BaseModel):
     )
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["title", "user"],
+                name="unique_money_flow_status_per_user",
+            )
+        ]
         verbose_name = _("Money flow status")
         verbose_name_plural = _("Money flow statuses")
 

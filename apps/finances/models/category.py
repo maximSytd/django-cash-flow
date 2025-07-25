@@ -9,7 +9,6 @@ class Category(BaseModel, MPTTModel):
     """Represent Category in db."""
 
     title = models.CharField(
-        unique=True,
         max_length=120,
         verbose_name=_("Title"),
     )
@@ -38,6 +37,12 @@ class Category(BaseModel, MPTTModel):
         order_insertion_by = ("title",)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["title", "user"],
+                name="unique_category_per_user",
+            )
+        ]
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 

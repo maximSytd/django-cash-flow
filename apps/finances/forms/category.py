@@ -12,6 +12,8 @@ class CategoryForm(forms.ModelForm):
     def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
+        self.fields["type"].queryset = CategoryType.objects.filter(user=user)
+        self.fields["parent"].queryset = Category.objects.filter(user=user)
 
     title = forms.CharField(
         widget=forms.TextInput(
@@ -24,7 +26,7 @@ class CategoryForm(forms.ModelForm):
         max_length=120
     )
     parent = TreeNodeChoiceField(
-        queryset=Category.objects.all(),
+        queryset=Category.objects.none(),
         required=False,
         widget=forms.Select(attrs={
             "class": "form-select w-50",
@@ -34,7 +36,7 @@ class CategoryForm(forms.ModelForm):
         level_indicator="—"
     )
     type = forms.ModelChoiceField(
-        queryset=CategoryType.objects.all(),
+        queryset=CategoryType.objects.none(),
         widget=forms.Select(attrs={
             "class": "form-select w-50",
             "data-placeholder": _("Select category type")

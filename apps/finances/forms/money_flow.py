@@ -9,6 +9,16 @@ from ..models import MoneyFlow, MoneyFlowStatus, Category
 class MoneyFlowForm(forms.ModelForm):
     """Form for creating/updating MoneyFlow."""
 
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+        self.fields["category"].queryset = Category.objects.filter(
+            user=user,
+        ).order_by(
+            "tree_id",
+            "lft",
+        )
+
     total_sum = forms.DecimalField(
         widget=forms.NumberInput(
             attrs={
@@ -36,7 +46,7 @@ class MoneyFlowForm(forms.ModelForm):
     )
 
     category = TreeNodeChoiceField(
-        queryset=Category.objects.order_by("tree_id", "lft"),
+        queryset=Category.objects.none(),
         level_indicator = "-",
         widget=forms.Select(
             attrs={

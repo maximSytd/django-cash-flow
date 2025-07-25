@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from apps.core.views import OwnerAccessMixin
 from ..models import CategoryType
 from ..forms import CategoryTypeForm
 
@@ -29,7 +30,7 @@ class CategoryTypeCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
 
-class CategoryTypeUpdateView(LoginRequiredMixin, UpdateView):
+class CategoryTypeUpdateView(LoginRequiredMixin, OwnerAccessMixin, UpdateView):
     model = CategoryType
     form_class = CategoryTypeForm
     success_url = reverse_lazy("finances:category_type:list")
@@ -46,11 +47,7 @@ class CategoryTypeUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
 
-class CategoryTypeDeleteView(LoginRequiredMixin, DeleteView):
+class CategoryTypeDeleteView(LoginRequiredMixin, OwnerAccessMixin, DeleteView):
 
     model = CategoryType
     success_url = reverse_lazy("finances:category_type:list")
-
-    def get_queryset(self):
-        """Return view queryset."""
-        return self.request.user.category_types.order_by("created")

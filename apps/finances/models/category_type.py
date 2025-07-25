@@ -7,7 +7,6 @@ class CategoryType(BaseModel):
     """Represent Category type in db."""
 
     title = models.CharField(
-        unique=True,
         max_length=120,
         verbose_name=_("Title"),
     )
@@ -19,6 +18,12 @@ class CategoryType(BaseModel):
     )
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["title", "user"],
+                name="unique_category_type_per_user",
+            )
+        ]
         verbose_name = _("Category type")
         verbose_name_plural = _("Category types")
 
