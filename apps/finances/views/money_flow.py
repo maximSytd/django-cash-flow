@@ -21,7 +21,13 @@ class MoneyFlowFilterView(LoginRequiredMixin, FilterView):
 
     def get_queryset(self):
         """Return queryset for view."""
-        return self.request.user.money_flows.order_by("created")
+        return self.request.user.money_flows.prefetch_related(
+            "status",
+        ).prefetch_related(
+            "category",
+        ).order_by(
+            "created",
+        )
 
     def get_filterset_kwargs(self, filterset_class):
         """Return dict of kwargs for filterset."""

@@ -47,6 +47,4 @@ class Category(BaseModel, MPTTModel):
         verbose_name_plural = _("Categories")
 
     def __str__(self) -> str:
-        if self.parent:
-            return f"{self.title}-{self.parent.title}"
         return f"{self.title}"

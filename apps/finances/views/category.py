@@ -13,10 +13,15 @@ class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     context_object_name = "categories"
     template_name = "finances/category/list.html"
+    paginate_by = 12
 
     def get_queryset(self):
         """Return view queryset."""
-        return self.request.user.categories.order_by("created")
+        return self.request.user.categories.prefetch_related(
+            "parent",
+        ).prefetch_related(
+            "type",
+        ).order_by("created")
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):

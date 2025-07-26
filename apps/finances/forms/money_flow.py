@@ -13,13 +13,12 @@ class MoneyFlowForm(forms.ModelForm):
     def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
-        self.fields["category"].queryset = Category.objects.filter(
-            user=user,
+        self.fields["status"].queryset = user.money_flow_statuses.all()
+        self.fields["category"].queryset = user.categories.all(
         ).order_by(
             "tree_id",
             "lft",
         )
-        self.fields["category"].queryset = user.categories.all()
 
     total_sum = forms.DecimalField(
         widget=forms.NumberInput(
@@ -38,7 +37,7 @@ class MoneyFlowForm(forms.ModelForm):
     )
 
     status = forms.ModelChoiceField(
-        queryset=MoneyFlowStatus.objects.all(),
+        queryset=MoneyFlowStatus.objects.none(),
         widget=forms.Select(
             attrs={
                 "class": "select2 form-select w-50",

@@ -45,12 +45,7 @@
                     </p>
                     {% endif %}
                     <p class="card-text small">
-                        {% trans "Type:" %} 
-                        {% if category.type in user.category_types.all %}
-                            {{ category.type.title }}
-                        {% else %}
-                            <s>{{ category.type.title }}</s> ({% trans "Removed" %})
-                        {% endif %}
+                        {% trans "Type:" %} {{ category.type.title }}
                     </p>
                     <div class="mt-auto d-flex justify-content-end">
                         <a href="{% url 'finances:category:update' pk=category.pk %}" class="btn btn-sm btn-outline-secondary me-2">

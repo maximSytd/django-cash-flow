@@ -35,7 +35,7 @@ class CategoryForm(forms.ModelForm):
             },
         ),
         label=_("Parent category"),
-        level_indicator="—"
+        level_indicator="—",
     )
     type = forms.ModelChoiceField(
         queryset=CategoryType.objects.none(),
