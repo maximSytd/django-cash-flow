@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
 
 from debug_toolbar.toolbar import debug_toolbar_urls
 
@@ -34,28 +33,6 @@ urlpatterns += (
         ),
     )
 
-urlpatterns += [
-    path(
-        "account/password_reset/",
-        auth_views.PasswordResetView.as_view(),
-        name="password_reset",
-    ),
-    path(
-        "account/password_reset/done/",
-        auth_views.PasswordResetDoneView.as_view(),
-        name="password_reset_done",
-    ),
-    path(
-        "account/reset/<uidb64>/<token>/",
-        auth_views.PasswordResetConfirmView.as_view(),
-        name="password_reset_confirm",
-    ),
-    path(
-        "account/reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(),
-        name="password_reset_complete",
-    ),
-]
 
 urlpatterns += api_urlpatterns
 urlpatterns += debug_urlpatterns

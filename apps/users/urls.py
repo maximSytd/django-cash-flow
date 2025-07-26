@@ -1,20 +1,15 @@
 from django.contrib.auth.views import LogoutView, LoginView
 from django.urls import path
 
-from .views import ProfileView, UserUpdateView
+from . import views
 
 app_name = "users"
 
 urlpatterns = [
     path(
-        "logout/",
-        LogoutView.as_view(),
-        name="logout",
-    ),
-    path(
-        "profile/",
-        ProfileView.as_view(),
-        name="profile",
+        "signup/",
+        views.SignUpView.as_view(),
+        name="signup",
     ),
     path(
         "login/",
@@ -25,8 +20,23 @@ urlpatterns = [
         name="login",
     ),
     path(
-        "update-account/",
-        UserUpdateView.as_view(),
-        name="update_user",
+        "logout/",
+        LogoutView.as_view(),
+        name="logout",
+    ),
+    path(
+        "profile/",
+        views.ProfileView.as_view(),
+        name="profile",
+    ),
+    path(
+        "update-initials/",
+        views.UserInitialsUpdateView.as_view(),
+        name="update_initials",
+    ),
+    path(
+        "update-avatar/",
+        views.UserAvatarUpdateView.as_view(),
+        name="update_avatar",
     ),
 ]

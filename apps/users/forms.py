@@ -1,27 +1,43 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm
+
+from .models import User
 
 
-class CustomLoginForm(AuthenticationForm):
-    """Custom login from."""
+class UserInitialsUpdateForm(forms.ModelForm):
+    """User update form."""
 
-    username = forms.CharField(
+    first_name = forms.CharField(
+        label=_("Username"),
         widget=forms.TextInput(
             attrs={
-                "class": "form-control",
-                "placeholder": "Введите логин",
-            }
+                "class": "form-control w-50",
+            },
         ),
-        label="Логин",
-        required=False,
     )
-    password = forms.CharField(
-        widget=forms.PasswordInput(
+    last_name = forms.CharField(
+        label=_("last_name"),
+        widget=forms.TextInput(
             attrs={
-            "class": "form-control",
-            "placeholder": "Введите ваш пароль",
-            }
+                "class": "form-control w-50",
+            },
         ),
-        label="Пароль",
-        required=False,
     )
+
+    class Meta:
+        model = User
+        fields = (
+            "first_name",
+            "last_name",
+        )
+
+class UserRegistrationForm(UserCreationForm):
+    """Form for user registration."""
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+        )

@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="content-container">
+    <div class="content-container p-3">
         <form method="post" >
             {% csrf_token %}
             {{ form.first_name | as_crispy_field }}
@@ -25,7 +25,4 @@
             <a href="{% url 'users:profile' %}" class="btn btn-secondary me-2  ms-2">Back</a>
         </form>
     </div>
-{% endblock %}
-{% block scripts %}
-    {% include 'products/includes/filter_common_scripts.html' %}
 {% endblock %}
