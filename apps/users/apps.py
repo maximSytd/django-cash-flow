@@ -10,3 +10,4 @@ class UsersAppConfig(AppConfig):
 
     def ready(self) -> None:
         from .api.auth import scheme
+        from . import signals
