@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 from apps.core.views import IndexView
+from .api_versions import urlpatterns as api_urlpatterns
+from .debug import urlpatterns as debug_urlpatterns
 
 
 urlpatterns = [
@@ -54,3 +56,6 @@ urlpatterns += [
         name="password_reset_complete",
     ),
 ]
+
+urlpatterns += api_urlpatterns
+urlpatterns += debug_urlpatterns

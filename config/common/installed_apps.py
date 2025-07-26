@@ -9,9 +9,16 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
 )
 
+DRF_PACKAGES = (
+    "rest_framework",
+    "django_filters",
+    "knox",
+    "drf_spectacular",
+    "drf_standardized_errors",
+)
+
 THIRD_PARTY = (
     "imagekit",
-    "django_filters",
     "django_extensions",
     "crispy_forms",
     "crispy_bootstrap5",
@@ -25,4 +32,4 @@ LOCAL_APPS = (
     "apps.finances",
 )
 
-INSTALLED_APPS += THIRD_PARTY + LOCAL_APPS
+INSTALLED_APPS += THIRD_PARTY + LOCAL_APPS + DRF_PACKAGES

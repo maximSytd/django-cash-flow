@@ -3,7 +3,7 @@ import django_filters
 import django_filters.widgets
 from django.utils.translation import gettext_lazy as _
 
-from ..models import MoneyFlow, MoneyFlowStatus, Category
+from ..models import MoneyFlow, MoneyFlowStatus, Category, CategoryType
 
 
 class MoneyFlowFilter(django_filters.FilterSet):
@@ -14,7 +14,7 @@ class MoneyFlowFilter(django_filters.FilterSet):
             attrs={
                 "class": "form-control",
                 "placeholder": _("Min / Max"),
-                "step": "0.01",
+                "step": "10",
                 "type": "number",
             },
         ),
@@ -32,7 +32,7 @@ class MoneyFlowFilter(django_filters.FilterSet):
     )
 
     category = django_filters.ModelChoiceFilter(
-        queryset=Category.objects.all(),
+        queryset=Category.objects.none(),
         widget=forms.Select(
             attrs={
                 "class": "form-select",
@@ -41,15 +41,17 @@ class MoneyFlowFilter(django_filters.FilterSet):
         label=_("Category"),
     )
 
-    comment = django_filters.CharFilter(
+    category_type = django_filters.ModelChoiceFilter(
+        queryset=CategoryType.objects.all(),
         lookup_expr="icontains",
-        widget=forms.TextInput(
+        widget=forms.Select(
             attrs={
                 "class": "form-control",
-                "placeholder": _("Search by comment"),
+                "placeholder": _("Search by category type"),
             },
         ),
-        label=_("Comment"),
+        label=_("Category type"),
+        method=...,
     )
 
     created = django_filters.DateFromToRangeFilter(
@@ -68,6 +70,5 @@ class MoneyFlowFilter(django_filters.FilterSet):
             "total_sum",
             "status",
             "category",
-            "comment",
             "created",
         )
