@@ -22,7 +22,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-                Sections
+                {% trans "Sections" %}
             </button>
             {% block page_name %}
             {% endblock %}
@@ -31,7 +31,7 @@
                 {% if user.avatar_thumbnail %}
                     <img src="{{ request.user.avatar_thumbnail.url }}" alt="Profile Photo" width="50" height="auto" class="img-fluid rounded-circle me-3" />
                 {% else %}
-                    <img src="https://avatar.iran.liara.run/username?username={{ request.user.username }}&background=800000&color=FFFFFF&length=1" alt="Profile Photo" width="50" height="auto" class="img-fluid rounded-circle me-3" />
+                    <img src="{% static 'empty_avatar.webp' %}" alt="Profile Photo" width="50" height="auto" class="img-fluid rounded-circle me-3" />
                 {% endif %}
                 <div class="dropdown me-5">
                     <button class="btn btn-outline-light dropdown-toggle" type="button" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,17 +39,17 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
                         <li>
-                            <a class="dropdown-item" href="{% url 'users:profile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'users:profile' %}">{% trans "Profile" %}</a>
                         </li>
                         {% if user.is_superuser %}
                             <li>
-                                <a class="dropdown-item" href="{% url 'admin:index' %}">Admin panel</a>
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin panel" %}</a>
                             </li>
                         {% endif %}
                         <li>
                             <form method="post" action="{% url 'users:logout' %}">
                                 {% csrf_token %}
-                                <button type="submit" class="dropdown-item" >Log out</button>
+                                <button type="submit" class="dropdown-item" >{% trans "Logout" %}</button>
                             </form>
                         </li>
                     </ul>
