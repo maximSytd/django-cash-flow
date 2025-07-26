@@ -4,16 +4,20 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 from apps.core.models import BaseModel
 
+
 class MoneyFlow(BaseModel):
     """Represent Money flow in db."""
+
+    TOTAL_SUM_MIN_VALUE = 0
+    TOTAL_SUM_MAX_VALUE = 100_000_000
 
     total_sum = models.DecimalField(
         max_digits=12,
         decimal_places=2,
         verbose_name=_("Total sum"),
         validators=[
-            MinValueValidator(1),
-            MaxValueValidator(100_000_000),
+            MinValueValidator(TOTAL_SUM_MIN_VALUE),
+            MaxValueValidator(TOTAL_SUM_MAX_VALUE),
         ]
     )
     status = models.ForeignKey(
@@ -48,4 +52,4 @@ class MoneyFlow(BaseModel):
         verbose_name_plural = _("Money flows")
 
     def __str__(self) -> str:
-        return f"{self.flow_type} ({self.status.title})"
+        return f"{self.total_sum} ({self.status.title})"

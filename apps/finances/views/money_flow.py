@@ -18,8 +18,13 @@ class MoneyFlowFilterView(LoginRequiredMixin, FilterView):
     paginate_by = 10
 
     def get_queryset(self):
-        """Return view queryset."""
-        return self.request.user.money_flows.order_by("created")
+        queryset = self.request.user.money_flows.order_by("created")
+        return queryset
+
+    def get_filterset_kwargs(self, filterset_class):
+        kwargs = super().get_filterset_kwargs(filterset_class)
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class MoneyFlowCreateView(LoginRequiredMixin, CreateView):

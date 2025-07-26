@@ -21,14 +21,16 @@ class CategoryTypeForm(forms.ModelForm):
         label=_("Title"),
         max_length=120
     )
-    user = forms.IntegerField(
-        widget=forms.HiddenInput(),
-        required=False,
-    )
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
 
     class Meta:
         model = CategoryType
         fields = (
             "title",
-            "user",
         )

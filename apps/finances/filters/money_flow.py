@@ -9,6 +9,14 @@ from ..models import MoneyFlow, MoneyFlowStatus, Category, CategoryType
 class MoneyFlowFilter(django_filters.FilterSet):
     """Represent MoneyFlow list filterset."""
 
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+        if user:
+            self.filters["status"].queryset = user.money_flow_statuses.all()
+            self.filters["category"].queryset = user.categories.all()
+            self.filters["category_type"].queryset = user.category_types.all()
+
     total_sum = django_filters.RangeFilter(
         widget=django_filters.widgets.RangeWidget(
             attrs={
@@ -16,13 +24,15 @@ class MoneyFlowFilter(django_filters.FilterSet):
                 "placeholder": _("Min / Max"),
                 "step": "10",
                 "type": "number",
-            },
+                "min": MoneyFlow.TOTAL_SUM_MIN_VALUE,
+                "max": MoneyFlow.TOTAL_SUM_MAX_VALUE,
+            }
         ),
         label=_("Amount (range)"),
     )
 
     status = django_filters.ModelChoiceFilter(
-        queryset=MoneyFlowStatus.objects.all(),
+        queryset=MoneyFlowStatus.objects.none(),
         widget=forms.Select(
             attrs={
                 "class": "form-select",
@@ -30,28 +40,40 @@ class MoneyFlowFilter(django_filters.FilterSet):
         ),
         label=_("Status"),
     )
-
+    def filter_category_tree(queryset, name, value):
+        """
+        Return query set of tree search of descendant categories,
+        self included.
+        """
+        if not value:
+            return queryset
+        return queryset.filter(
+            category__in=value.get_descendants(include_self=True),
+            category__type_id=value.type_id,
+        )
     category = django_filters.ModelChoiceFilter(
         queryset=Category.objects.none(),
         widget=forms.Select(
             attrs={
                 "class": "form-select",
+                "id": "id_category_select",
             },
         ),
         label=_("Category"),
+        empty_label=_("Choose category"),
+        method=filter_category_tree,
     )
-
     category_type = django_filters.ModelChoiceFilter(
-        queryset=CategoryType.objects.all(),
-        lookup_expr="icontains",
+        queryset=CategoryType.objects.none(),
         widget=forms.Select(
             attrs={
                 "class": "form-control",
+                "id": "id_category_type_select",
                 "placeholder": _("Search by category type"),
             },
         ),
         label=_("Category type"),
-        method=...,
+        field_name="category__type",
     )
 
     created = django_filters.DateFromToRangeFilter(
@@ -69,6 +91,7 @@ class MoneyFlowFilter(django_filters.FilterSet):
         fields = (
             "total_sum",
             "status",
+            "category_type",
             "category",
             "created",
         )

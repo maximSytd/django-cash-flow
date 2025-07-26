@@ -6,7 +6,7 @@ class CategoryModelSerializer(ModelBaseSerializer):
 
     class Meta:
         model = Category
-        field = (
+        fields = (
             "id",
             "title",
         )

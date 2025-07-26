@@ -7,3 +7,6 @@ class UsersAppConfig(AppConfig):
 
     name = "apps.users"
     verbose_name = _("Users")
+
+    def ready(self) -> None:
+        from .api.auth import scheme
