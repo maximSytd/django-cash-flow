@@ -12,7 +12,7 @@ operations taking into account
 
 ![screenshot 2](docs/screenshots/screen2.png)
 
-## 🚀 Project Setup Guide
+## 🚀 Project Setup Guide (local)
 
 This guide will help you set up and run the Django project using the [uv](https://docs.astral.sh/uv/getting-started/installation/) Python package manager and Docker for services like PostgreSQL.
 
