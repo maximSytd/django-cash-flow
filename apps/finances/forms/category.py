@@ -47,10 +47,33 @@ class CategoryForm(forms.ModelForm):
         ),
         label=_("Type"),
     )
-    user = forms.IntegerField(
-        widget=forms.HiddenInput(),
-        required=False,
-    )
+    def clean(self):
+        """Custom clean to ensure title unique."""
+        cleaned_data = super().clean()
+        title = cleaned_data.get("title")
+
+        if title and Category.objects.filter(
+            user=self.user,
+            title=title,
+        ).exclude(
+            pk=self.instance.pk,
+        ).exists():
+            self.add_error(
+                "title",
+                _(
+                    "A category with this title already exists.",
+                ),
+            )
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        """Custom method to save user with form."""
+        instance = super().save(commit=False)
+        instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
 
     class Meta:
         model = Category
@@ -58,5 +81,4 @@ class CategoryForm(forms.ModelForm):
             "title",
             "parent",
             "type",
-            "user",
         )

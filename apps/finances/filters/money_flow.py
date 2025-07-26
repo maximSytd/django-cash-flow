@@ -22,15 +22,14 @@ class MoneyFlowFilter(django_filters.FilterSet):
             attrs={
                 "class": "form-control",
                 "placeholder": _("Min / Max"),
-                "step": "10",
-                "type": "number",
+                "step": 10,
+                "type": "float",
                 "min": MoneyFlow.TOTAL_SUM_MIN_VALUE,
                 "max": MoneyFlow.TOTAL_SUM_MAX_VALUE,
             }
         ),
         label=_("Amount (range)"),
     )
-
     status = django_filters.ModelChoiceFilter(
         queryset=MoneyFlowStatus.objects.none(),
         widget=forms.Select(
@@ -48,8 +47,9 @@ class MoneyFlowFilter(django_filters.FilterSet):
         if not value:
             return queryset
         return queryset.filter(
-            category__in=value.get_descendants(include_self=True),
-            category__type_id=value.type_id,
+            category__in=value.get_descendants(
+                include_self=True,
+            ),
         )
     category = django_filters.ModelChoiceFilter(
         queryset=Category.objects.none(),
@@ -75,7 +75,6 @@ class MoneyFlowFilter(django_filters.FilterSet):
         label=_("Category type"),
         field_name="category__type",
     )
-
     created = django_filters.DateFromToRangeFilter(
         widget=django_filters.widgets.RangeWidget(
             attrs={

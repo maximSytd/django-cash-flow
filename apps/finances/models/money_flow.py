@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -23,13 +24,13 @@ class MoneyFlow(BaseModel):
     status = models.ForeignKey(
         to="finances.MoneyFlowStatus",
         related_name="money_flows",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("Status"),
     )
     category = models.ForeignKey(
         to="finances.Category",
         related_name="money_flows",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("Category"),
     )
     comment = models.TextField(
@@ -41,8 +42,14 @@ class MoneyFlow(BaseModel):
     user = models.ForeignKey(
         to="users.User",
         related_name="money_flows",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("User"),
+    )
+    created = models.DateTimeField(
+        verbose_name=_("Created"),
+        default=timezone.now,
+        blank=True,
+        null=True
     )
 
     # objects = ...

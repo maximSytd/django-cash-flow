@@ -21,8 +21,28 @@ class CategoryTypeForm(forms.ModelForm):
         label=_("Title"),
         max_length=120
     )
+    def clean(self):
+        """Custom clean to ensure title unique."""
+        cleaned_data = super().clean()
+        title = cleaned_data.get("title")
+
+        if title and CategoryType.objects.filter(
+            user=self.user,
+            title=title,
+        ).exclude(
+            pk=self.instance.pk,
+        ).exists():
+            self.add_error(
+                "title",
+                _(
+                    "A category type with this title already exists.",
+                ),
+            )
+
+        return cleaned_data
 
     def save(self, commit=True):
+        """Custom method to save user with form."""
         instance = super().save(commit=False)
         instance.user = self.user
         if commit:

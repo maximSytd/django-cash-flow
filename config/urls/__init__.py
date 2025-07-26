@@ -20,7 +20,7 @@ urlpatterns = [
         include("apps.users.urls"),
     ),
     path(
-        "finance/",
+        "finances/",
         include("apps.finances.urls"),
     ),
 ]

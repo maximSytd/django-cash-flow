@@ -8,9 +8,12 @@ from ..forms import MoneyFlowStatusForm
 
 
 class MoneyFlowStatusListView(LoginRequiredMixin, ListView):
+    """View that provides feature to list MoneyFlowStatus."""
+
     model = MoneyFlowStatus
     context_object_name = "money_flow_statuses"
     template_name = "finances/money_flow_status/list.html"
+    paginate_by = 9
 
     def get_queryset(self):
         """Return view queryset."""
@@ -18,6 +21,8 @@ class MoneyFlowStatusListView(LoginRequiredMixin, ListView):
 
 
 class MoneyFlowStatusCreateView(LoginRequiredMixin, CreateView):
+    """View that provides feature to create MoneyFlowStatus."""
+
     model = MoneyFlowStatus
     form_class = MoneyFlowStatusForm
     success_url = reverse_lazy("finances:money_flow_status:list")
@@ -35,6 +40,7 @@ class MoneyFlowStatusUpdateView(
     OwnerAccessMixin,
     UpdateView,
 ):
+    """View that provides feature to update MoneyFlowStatus."""
     model = MoneyFlowStatus
     form_class = MoneyFlowStatusForm
     success_url = reverse_lazy("finances:money_flow_status:list")
@@ -52,5 +58,7 @@ class RemoveUserMoneyFlowStatusView(
     OwnerAccessMixin,
     DeleteView,
 ):
+    """View that provides feature to delete MoneyFlowStatus."""
+
     model = MoneyFlowStatus
     success_url = reverse_lazy("finances:money_flow_status:list")

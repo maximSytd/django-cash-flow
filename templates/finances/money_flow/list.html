@@ -146,13 +146,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const categoryTypeSelect = document.getElementById("id_category_type_select");
     const categorySelect = document.getElementById("id_category_select");
 
+    categorySelect.innerHTML = '<option value="">{% trans "Choose type first" %}</option>';
+    categorySelect.disabled = true;
+
     if (categoryTypeSelect) {
         categoryTypeSelect.addEventListener("change", function () {
             const typeId = this.value;
 
-            categorySelect.innerHTML = "<option value=''>{% trans 'Choose category' %}</option>";
+            if (!typeId) {
+                categorySelect.innerHTML = '<option value="">{% trans "Choose type first" %}</option>';
+                categorySelect.disabled = true;
+                return;
+            }
 
-            if (!typeId) return;
+            categorySelect.disabled = false;
+            categorySelect.innerHTML = '<option value="">{% trans "Choose category" %}</option>';
 
             fetch(`/api/v1/finances/categories/by-type/?type=${typeId}`, {
                 headers: {
@@ -164,14 +172,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 data.forEach(cat => {
                     const opt = document.createElement("option");
                     opt.value = cat.id;
-                    opt.textContent = cat.title;
+                    opt.textContent = cat.indent_title;
                     categorySelect.appendChild(opt);
                 });
             })
             .catch(error => {
-                console.error(`Error loading categories: ${error}`, );
+                console.error(`Error loading categories: ${error}`);
             });
         });
+
+        if (categoryTypeSelect.value) {
+            categoryTypeSelect.dispatchEvent(new Event('change'));
+        }
     }
 });
 </script>

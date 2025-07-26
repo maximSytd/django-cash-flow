@@ -8,6 +8,8 @@ from ..forms import CategoryForm
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
+    """View that provides feature to list Category."""
+
     model = Category
     context_object_name = "categories"
     template_name = "finances/category/list.html"
@@ -18,6 +20,8 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
+    """View that provides feature to create Category."""
+
     model = Category
     form_class = CategoryForm
     success_url = reverse_lazy("finances:category:list")
@@ -31,6 +35,8 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
 
 class CategoryUpdateView(LoginRequiredMixin, OwnerAccessMixin, UpdateView):
+    """View that provides feature to update Category."""
+
     model = Category
     form_class = CategoryForm
     success_url = reverse_lazy("finances:category:list")
@@ -44,5 +50,7 @@ class CategoryUpdateView(LoginRequiredMixin, OwnerAccessMixin, UpdateView):
 
 
 class CategoryDeleteView(LoginRequiredMixin, OwnerAccessMixin, DeleteView):
+    """View that provides feature to delete Category."""
+
     model = Category
     success_url = reverse_lazy("finances:category:list")

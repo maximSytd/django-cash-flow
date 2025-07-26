@@ -8,9 +8,12 @@ from ..forms import CategoryTypeForm
 
 
 class CategoryTypeListView(LoginRequiredMixin, ListView):
+    """View that provides feature to list CategoryType."""
+
     model = CategoryType
     context_object_name = "category_types"
     template_name = "finances/category_type/list.html"
+    paginate_by = 9
 
     def get_queryset(self):
         """Return view queryset."""
@@ -18,6 +21,8 @@ class CategoryTypeListView(LoginRequiredMixin, ListView):
 
 
 class CategoryTypeCreateView(LoginRequiredMixin, CreateView):
+    """View that provides feature to create CategoryType."""
+
     model = CategoryType
     form_class = CategoryTypeForm
     success_url = reverse_lazy("finances:category_type:list")
@@ -31,6 +36,8 @@ class CategoryTypeCreateView(LoginRequiredMixin, CreateView):
 
 
 class CategoryTypeUpdateView(LoginRequiredMixin, OwnerAccessMixin, UpdateView):
+    """View that provides feature to update CategoryType."""
+
     model = CategoryType
     form_class = CategoryTypeForm
     success_url = reverse_lazy("finances:category_type:list")
@@ -48,6 +55,7 @@ class CategoryTypeUpdateView(LoginRequiredMixin, OwnerAccessMixin, UpdateView):
 
 
 class CategoryTypeDeleteView(LoginRequiredMixin, OwnerAccessMixin, DeleteView):
+    """View that provides feature to delete CategoryType."""
 
     model = CategoryType
     success_url = reverse_lazy("finances:category_type:list")

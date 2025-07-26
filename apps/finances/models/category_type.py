@@ -13,7 +13,7 @@ class CategoryType(BaseModel):
     user = models.ForeignKey(
         to="users.User",
         related_name="category_types",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("User"),
     )
 

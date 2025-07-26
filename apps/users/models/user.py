@@ -11,6 +11,7 @@ from imagekit import models as imagekitmodels
 from imagekit.processors import ResizeToFill, Transpose
 
 from apps.core.models import BaseModel
+from apps.finances.models import CategoryType, MoneyFlowStatus
 
 
 class UserManager(DjangoUserManager):
@@ -29,7 +30,24 @@ class UserManager(DjangoUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+        self._create_default_instances(user)
         return user
+
+    def _create_default_instances(self, user: "User") -> None:
+        """Creates related business entities by default."""
+        CategoryType.objects.bulk_create(
+            (
+                CategoryType(title="Пополнение", user=user),
+                CategoryType(title="Списание", user=user),
+            ),
+        )
+        MoneyFlowStatus.objects.bulk_create(
+            (
+                MoneyFlowStatus(title="Бизнес", user=user),
+                MoneyFlowStatus(title="Личное", user=user),
+                MoneyFlowStatus(title="Налог", user=user),
+            ),
+        )
 
     def create_superuser(
         self,

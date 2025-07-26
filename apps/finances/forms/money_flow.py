@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from mptt.forms import TreeNodeChoiceField
@@ -18,15 +19,17 @@ class MoneyFlowForm(forms.ModelForm):
             "tree_id",
             "lft",
         )
+        self.fields["category"].queryset = user.categories.all()
 
     total_sum = forms.DecimalField(
         widget=forms.NumberInput(
             attrs={
-                "class": "form-control w-25",
-                "placeholder": _("Enter amount"),
-                "step": "0.01",
-                "min": "1",
-                "max": "100000000",
+                "class": "form-control w-50",
+                "placeholder": _("Enter amount in rubles"),
+                "step": 10,
+                "type": "float",
+                "min": MoneyFlow.TOTAL_SUM_MIN_VALUE,
+                "max": MoneyFlow.TOTAL_SUM_MAX_VALUE,
             }
         ),
         label=_("Amount"),
@@ -68,10 +71,23 @@ class MoneyFlowForm(forms.ModelForm):
         label=_("Comment"),
         required=False,
     )
-    user = forms.IntegerField(
-        widget=forms.HiddenInput(),
-        required=False,
+    created = forms.DateTimeField(
+        initial=timezone.now,
+        widget=forms.DateTimeInput(
+            attrs={
+                'type': "datetime-local",
+                'class': "form-control",
+            }
+        ),
+        required=True,
     )
+    def save(self, commit=True):
+        """Custom method to save user with form."""
+        instance = super().save(commit=False)
+        instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
 
     class Meta:
         model = MoneyFlow
@@ -80,5 +96,5 @@ class MoneyFlowForm(forms.ModelForm):
             "status",
             "category",
             "comment",
-            "user",
+            "created",
         )

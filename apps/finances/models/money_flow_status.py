@@ -13,7 +13,7 @@ class MoneyFlowStatus(BaseModel):
     user = models.ForeignKey(
         to="users.User",
         related_name="money_flow_statuses",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("User"),
     )
 

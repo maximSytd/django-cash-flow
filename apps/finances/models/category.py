@@ -23,13 +23,13 @@ class Category(BaseModel, MPTTModel):
     type = models.ForeignKey(
         to="finances.CategoryType",
         related_name="categories",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("Type"),
     )
     user = models.ForeignKey(
         to="users.User",
         related_name="categories",
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name=_("User"),
     )
 
