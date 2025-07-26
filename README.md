@@ -1,81 +1,83 @@
-## Гайдлайн для запуска проекта
-Для запуска проекта необходимы python 3.12 и Docker
-(так же можно использовать poetry)
+# Test task:
+## Web service for managing cash flow
+funds (CFD)
+Description:
+CFD (cash flow) is the process of accounting, management and analysis.
+receipts and writing of funds of companies or individuals. Within the framework of
+This task, the user must be able to keep track of all cash
+operations taking into account
 
-проверяем версию питона 
+### examples:
+![screenshot 1](docs/screenshots/screen1.png)
+
+![screenshot 2](docs/screenshots/screen2.png)
+
+## 🚀 Project Setup Guide
+
+This guide will help you set up and run the Django project using the [uv](https://docs.astral.sh/uv/getting-started/installation/) Python package manager and Docker for services like PostgreSQL.
+
+---
+
+### ✅ Prerequisites
+
+- [Python](https://www.python.org/) (3.11+ recommended)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- [Docker](https://www.docker.com/) & Docker Compose
+
+
+### 1. get dependencies
 ```bash
-python --version 
-# должно быть больше 3.12
+uv sync
 ```
 
-создаем виртуальное окружение 
+### 2. get dependencies
 ```bash
-python -m venv .venv
-```
-активируем окружение
-```bash
-.venv/Scripts/activate  # windows
-source .venv/bin/activate  # unix
-```
-скачиваем библиотеки
-```bash
-pip install -r requirements.txt
+# Windows:
+.venv/Scripts/activate
+
+# Unix/macOS:
+source .venv/bin/activate
 ```
 
-запускаем docker-compose, должен быть запущен демон докера (проще всего с десктопной версией)
+
+### 3. Create Django secrets in .env file
+Create a `.env` file in the project directory with these variables:
+
 ```bash
-docker-compose up
-```
+DEBUG=true  # Set to false for production
+DJANGO_SECRET="your-django-secret-key"
 
-### создайте секреты для django в .env файле в каталоге проекта
-```bash
-DEBUG=true # или false для работы на продакшн сервере
-DJANGO_SECRET="секрет для django"
-
-CELERY_TASK_ALWAYS_EAGER=true
-
-# настройки редиса
-REDIS_HOST=redis
-REDIS_PORT=6379
-REDIS_DB=1
-
-# найстроки для бд
+# Database settings
 POSTGRES_DB="mydatabase"
 POSTGRES_USER="myuser"
 POSTGRES_PASSWORD="mypassword"
 POSTGRES_HOST="postgres"
 POSTGRES_PORT=5432
-
-
-# ! не обязательно
-# настройки для smtp
-EMAIL_HOST_USER="ваша почта на хосте"
-EMAIL_HOST_PASSWORD="пароль для хоста"
 ```
 
-Делаем миграции базы данных
+### 4. Start Docker containers
+Make sure Docker daemon is running
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+docker-compose up
 ```
 
-собираем статик файлы 
+### 5.1 Database migrations
+```bash
+python manage.py makemigrations && python manage.py migrate
+```
+
+### 5.2. Create admin user (optional)
+```bash
+python manage.py createsuperuser
+```
+
+### 6. Collect static files
 ```bash
 python manage.py collectstatic
 ```
 
-
-запуск приложения
+### 7. Run the application
 ```bash
 python manage.py runserver
 ```
-
-cli для создания админа
-```bash
-python manage.py createsuperuser
-```
-! не обязательно
-запуск celery (асинхронный воркер) в отдельном терминале с активированным окружением python
-```bash
-celery -A config worker -B --loglevel=INFO
-```
+Then open http://localhost:8000 in your browser
