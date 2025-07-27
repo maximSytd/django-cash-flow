@@ -51,7 +51,7 @@ class MoneyFlowCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
 
-class MoneyFlowDeleteView(LoginRequiredMixin, DeleteView):
+class MoneyFlowDeleteView(LoginRequiredMixin, OwnerAccessMixin, DeleteView):
     """View that provides feature to delete MoneyFlow."""
 
     model = MoneyFlow
