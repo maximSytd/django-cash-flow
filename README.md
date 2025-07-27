@@ -25,8 +25,10 @@ This guide will help you set up and run the Django project using the [uv](https:
 - [Docker](https://www.docker.com/) & Docker Compose
 
 
-### 1. get dependencies
+### 1. clone repo and get dependencies
 ```bash
+git clone https://github.com/maximSytd/django-cash-flow.git
+cd django-cash-flow
 uv sync
 ```
 
