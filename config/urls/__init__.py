@@ -1,8 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from debug_toolbar.toolbar import debug_toolbar_urls
-
 from apps.core.views import IndexView
 from .api_versions import urlpatterns as api_urlpatterns
 from .debug import urlpatterns as debug_urlpatterns
