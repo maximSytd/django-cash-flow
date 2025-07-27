@@ -65,7 +65,7 @@ docker-compose up -d --build
 
 ### 5.1 Database migrations
 ```bash
-python manage.py makemigrations && python manage.py migrate
+python manage.py migrate
 ```
 
 ### 5.2. Create admin user (optional)
@@ -73,9 +73,9 @@ python manage.py makemigrations && python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 6. Collect static files, and compile russian transcription (optional)
+### 6. Collect static files, and compile russian transcription
 ```bash
-python manage.py collectstatic
+python manage.py collectstatic &&
 django-admin compilemessages
 ```
 
