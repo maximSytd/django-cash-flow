@@ -14,6 +14,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
     context_object_name = "user"
 
     def get_object(self, queryset = None):
+        """Return view main object."""
         return self.request.user
 
 
@@ -24,12 +25,11 @@ class UserInitialsUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     context_object_name = "user"
     form_class = UserInitialsUpdateForm
+    success_url = reverse_lazy("users:profile")
 
     def get_object(self, queryset = None):
+        """Return view main object."""
         return self.request.user
-
-    def get_success_url(self):
-        return reverse_lazy("users:profile")
 
 
 class UserAvatarUpdateView(LoginRequiredMixin, UpdateView):
@@ -37,12 +37,12 @@ class UserAvatarUpdateView(LoginRequiredMixin, UpdateView):
 
     fields = ("avatar",)
     model = User
+    success_url = reverse_lazy("users:profile")
 
     def get_object(self):
+        """Return view main object."""
         return self.request.user
 
-    def get_success_url(self):
-        return reverse_lazy("users:profile")
 
 class SignUpView(CreateView):
     """View for signing up."""
