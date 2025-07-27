@@ -40,7 +40,7 @@ MAX_PAGINATION_SIZE = 100
 # https://drf-spectacular.readthedocs.io/en/latest/settings.html
 SPECTACULAR_SETTINGS = {
     "TITLE": "Money flow",
-    "DESCRIPTION": "Api for Code Arena",
+    "DESCRIPTION": "Api for Money flow",
     "VERSION": get_latest_version("CHANGELOG.md"),
     "POSTPROCESSING_HOOKS": [
         "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
