@@ -17,7 +17,7 @@ class Category(BaseModel, MPTTModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name=_("Children"),
+        related_name="children",
         verbose_name=_("Parent category"),
     )
     type = models.ForeignKey(
