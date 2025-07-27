@@ -24,8 +24,6 @@ urlpatterns = [
     ),
 ]
 
-urlpatterns += debug_toolbar_urls()
-
 urlpatterns += (
         path(
             "admin/",
