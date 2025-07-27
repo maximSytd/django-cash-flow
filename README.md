@@ -32,7 +32,7 @@ cd django-cash-flow
 uv sync
 ```
 
-### 2. get dependencies
+### 2. activate virtual environment
 ```bash
 # Windows:
 .venv/Scripts/activate
