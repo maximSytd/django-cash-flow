@@ -52,8 +52,6 @@ class MoneyFlow(BaseModel):
         null=True
     )
 
-    # objects = ...
-
     class Meta:
         verbose_name = _("Money flow")
         verbose_name_plural = _("Money flows")
