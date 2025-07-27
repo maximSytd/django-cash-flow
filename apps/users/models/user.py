@@ -29,7 +29,6 @@ class UserManager(DjangoUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
-        self._create_default_instances(user)
         return user
 
     def create_superuser(
