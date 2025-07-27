@@ -50,9 +50,9 @@ DEBUG=true  # Set to false for production
 DJANGO_SECRET="your-django-secret-key"
 
 # Database settings
-POSTGRES_DB="mydatabase"
-POSTGRES_USER="myuser"
-POSTGRES_PASSWORD="mypassword"
+POSTGRES_DB="yourdatabase"
+POSTGRES_USER="user"
+POSTGRES_PASSWORD="password"
 POSTGRES_HOST="postgres"
 POSTGRES_PORT=5432
 ```
@@ -60,7 +60,7 @@ POSTGRES_PORT=5432
 ### 4. Start Docker containers
 Make sure Docker daemon is running
 ```bash
-docker-compose up
+docker-compose up -d --build
 ```
 
 ### 5.1 Database migrations
