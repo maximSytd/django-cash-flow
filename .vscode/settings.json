@@ -1,16 +1,11 @@
 {
     "cSpell.words": [
-        "CELERYBEAT",
         "dotenv",
         "filterset",
         "imagekit",
         "imagekitmodels",
         "mptt",
-        "pyotp",
-        "qrcode",
         "REFERER",
-        "totp",
-        "uidb"
     ],
     "files.exclude": {
        "**/__pycache__": true
