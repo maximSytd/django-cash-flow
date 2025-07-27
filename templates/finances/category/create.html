@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Create category{% endblock %}
+{% block title %}{% trans "Create category for money flow" %}{% endblock %}
 
 {% block style %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
@@ -11,7 +12,7 @@
 
 {% block page_name %}
 <div class="w-100 d-flex justify-content-center">
-    <a class="navbar-brand mx-auto" href="#">Create category for money flow</a>
+    <a class="navbar-brand mx-auto" href="#">{% trans "Create category for money flow" %}</a>
 </div>
 {% endblock %}
 
@@ -20,7 +21,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
     </form>
 </div>
 {% endblock %}

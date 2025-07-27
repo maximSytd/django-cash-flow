@@ -66,17 +66,17 @@
         <ul class="list-group mb-3">
             <a href="{% url 'index' %}" class="list-group-item list-group-item-action bg-transparent text-light">
                 <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="M5 20V9.5l7-5.288L19 9.5V20h-2.5v-9.02h-9V20zm3.5-1.02h7v-3h-7zm0-4h7v-3h-7z"/></svg>
-                Home page
+                {% trans "Home page" %}
             </a>
         </ul>
         <ul class="list-group mb-3">
             <a href="{% url 'finances:money_flow:list' %}" class="list-group-item list-group-item-action bg-transparent text-light">
-                All transactions
+                {% trans "All transactions" %}
             </a>
         </ul>
         <ul class="list-group mb-3">
             <a href="{% url 'finances:transaction_settings' %}" class="list-group-item list-group-item-action bg-transparent text-light">
-                Transactions settings
+                {% trans "Transactions settings" %}
             </a>
         </ul>
     </div>
@@ -89,7 +89,7 @@
             {% endfor %}
         {% endfor %}
         {% for error in form.non_field_errors %}
-            <strong>Error:</strong> {{ error }}<br>
+            <strong>{% trans "Error" %}:</strong> {{ error }}<br>
         {% endfor %}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>

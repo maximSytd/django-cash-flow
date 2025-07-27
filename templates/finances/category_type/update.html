@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Update money flow type{% endblock %}
 
@@ -20,7 +21,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
     </form>
 </div>
 {% endblock %}

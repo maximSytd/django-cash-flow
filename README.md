@@ -73,9 +73,10 @@ python manage.py makemigrations && python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 6. Collect static files
+### 6. Collect static files, and compile russian transcription (optional)
 ```bash
 python manage.py collectstatic
+django-admin compilemessages
 ```
 
 ### 7. Run the application

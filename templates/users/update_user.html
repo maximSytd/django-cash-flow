@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Update personal info{% endblock %}
+{% block title %}{% trans "Update personal info" %}{% endblock %}
 
 {% block style %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
@@ -11,7 +12,7 @@
 
 {% block page_name %}
 <div class="w-100 d-flex justify-content-center">
-    <a class="navbar-brand mx-auto" href="#">Update personal info</a>
+    <a class="navbar-brand mx-auto" href="#">{% trans "Update personal info" %}</a>
 </div>
 {% endblock %}
 
@@ -21,8 +22,8 @@
             {% csrf_token %}
             {{ form.first_name | as_crispy_field }}
             {{ form.last_name | as_crispy_field }}
-            <button class="btn btn-primary" type="submit">Done</button>
-            <a href="{% url 'users:profile' %}" class="btn btn-secondary me-2  ms-2">Back</a>
+            <button class="btn btn-primary" type="submit">{% trans "Done %"}</button>
+            <a href="{% url 'users:profile' %}" class="btn btn-secondary me-2  ms-2">{% trans "Back" %}</a>
         </form>
     </div>
 {% endblock %}
